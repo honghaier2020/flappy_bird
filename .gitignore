@@ -19,3 +19,11 @@
 *.exe
 *.out
 *.app
+
+# VS2012 project file
+*.opensdf
+*.sdf
+*.suo
+
+cocos2d/
+proj.win32/Debug.win32/
