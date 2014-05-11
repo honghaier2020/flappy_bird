@@ -11,5 +11,7 @@ public:
 	bool init();
 
 	CREATE_FUNC(BackgroundLayer);
+
+	static float getLandHeight();
 };
 #endif // BackgroundLayer_h__

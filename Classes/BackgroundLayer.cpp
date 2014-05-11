@@ -35,3 +35,8 @@ bool BackgroundLayer::init()
 	this->addChild(__background);
 	return true;
 }
+
+float BackgroundLayer::getLandHeight()
+{
+	return Sprite::createWithSpriteFrame(AtlasLoader::getInstance()->getSpriteFrameByName("land"))->getContentSize().height;
+}
