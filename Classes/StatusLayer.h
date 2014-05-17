@@ -36,9 +36,28 @@ public:
 
 	void blinkFullScreen();
 
+	void fadeInGameOver();
+
+	void jumpToScorePanel();
+
+	std::string getMedalsName(int __score);
+
+	void setBlinkSprite();
+
+	void fadeInRestartBtn();
+
+	void blinkAction();
+
+	void refreshScoreCallback();
+
+	void refreshScoreExecutor(float __dt);
+
+	void menuRestartCallback(cocos2d::Ref* __sender);
+
 private:
 	int		best_scores_;
 	int		current_scores_;
+	int		tmp_scores_;
 	bool	new_record_;
 	cocos2d::Size	visible_size_;
 	cocos2d::Point	origin_point_;

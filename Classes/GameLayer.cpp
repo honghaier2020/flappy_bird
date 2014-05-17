@@ -43,7 +43,12 @@ bool GameLayer::init()
 		__physics_body_bird->setDynamic(true);
 		__physics_body_bird->setLinearDamping(0.0f);
 		__physics_body_bird->setGravityEnable(false);
+		//	if not do this,onContactBegin will not be called !!!
+		__physics_body_bird->setCategoryBitmask(1);    // 0001  
+		__physics_body_bird->setContactTestBitmask(-1); // 0100  
+		__physics_body_bird->setCollisionBitmask(-1);   // 0011  
 		bird_->setPhysicsBody(__physics_body_bird);
+
 		bird_->setPosition(Point(__origin.x + __visibile_size.width/3 - 5,__origin.y + __visibile_size.height/2 + 5));
 		bird_->idle();
 		this->addChild(bird_);
@@ -55,6 +60,9 @@ bool GameLayer::init()
 		__physics_body_ground->addShape(PhysicsShapeBox::create(Size(288, __land_height)));
 		__physics_body_ground->setDynamic(false);
 		__physics_body_ground->setLinearDamping(0.0f);
+		__physics_body_ground->setCategoryBitmask(1);    // 0001  
+		__physics_body_ground->setContactTestBitmask(-1); // 0100  
+		__physics_body_ground->setCollisionBitmask(-1);   // 0011 
 		ground_node_->setPhysicsBody(__physics_body_ground);
 		ground_node_->setPosition(144,__land_height/2);
 		this->addChild(ground_node_);
@@ -150,6 +158,9 @@ void GameLayer::createPipes()
 			__body->addShape(__shapeBoxDown);
 			__body->addShape(PhysicsShapeBox::create(__pipe_up->getContentSize()));
 			__body->setDynamic(false);
+			__body->setCategoryBitmask(1);    // 0001  
+			__body->setContactTestBitmask(-1); // 0100  
+			__body->setCollisionBitmask(-1);   // 0011 
 			__single_pipe->setPhysicsBody(__body);
 			__single_pipe->setTag(PIP_NEW);
 

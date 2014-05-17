@@ -20,6 +20,11 @@ bool GameScene::init()
 {
 	if(Scene::initWithPhysics())
 	{
+		if(0)
+		{
+			this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+		}
+
 		this->getPhysicsWorld()->setGravity(Vect(0, -900));
 
 		//	add background layer
@@ -30,7 +35,7 @@ bool GameScene::init()
 		
 		auto __game_layer = GameLayer::create();
 		//	no useful
-		if(0) {
+		if(1) {
 			__game_layer->setPhyWorld(this->getPhysicsWorld());
 		}
 		__game_layer->setDelegator(__status_layer);
@@ -40,7 +45,7 @@ bool GameScene::init()
 		
 		auto __option_layer = OptionLayer::create();
 		__option_layer->setDelegator(__game_layer);
-		this->addChild(__option_layer);
+		this->addChild(__option_layer,1);
 		
 		return true;
 	}

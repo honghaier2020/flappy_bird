@@ -97,7 +97,7 @@ public:
 
 	void onTouch();
 
-	void setPhyWorld(cocos2d::PhysicsWorld* __world) {physics_world_ = __world; }
+	void setPhyWorld(cocos2d::PhysicsWorld* __world) {this->physics_world_ = __world; }
 
 	void scrollLand(float __dt);
 
