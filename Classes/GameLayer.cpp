@@ -6,11 +6,16 @@
 
 using namespace cocos2d;
 using namespace CocosDenshion;
+
+#define min(X,Y) ((X) < (Y) ? (X) : (Y)) 
+#define max(X,Y) ((X) > (Y) ? (X) : (Y)) 
+
 GameLayer::GameLayer()
 {
 	bird_ = NULL;
 	game_status_ = GAME_STATUS_READY;
 	scores_ = 0;
+	best_scores_ = 0;
 	ground_node_ = NULL;
 	land1_ = NULL;
 	land2_ = NULL;
@@ -120,7 +125,7 @@ void GameLayer::scrollLand( float __dt )
 
 bool GameLayer::onContactBegin( PhysicsContact& __contact )
 {
-
+	this->gameOver();
 	return true;
 }
 
@@ -158,5 +163,72 @@ void GameLayer::createPipes()
 int GameLayer::getRandomHeight() {
 	Size __visible_size = Director::getInstance()->getVisibleSize();
 	return rand()%(int)(2*PIP_HEIGHT + PIP_DISTANCE - __visible_size.height);
+}
+
+void GameLayer::update( float __delta )
+{
+	if(GAME_STATUS_START == game_status_)
+	{
+		this->rotateBird();
+		this->checkHit();
+	}
+}
+
+void GameLayer::rotateBird()
+{
+	float __vertical_speed = bird_->getPhysicsBody()->getVelocity().y;
+	bird_->setRotation(min(max(-90, (__vertical_speed*0.2 + 60)), 30));
+}
+
+void GameLayer::checkHit()
+{
+	for(auto __pipe : pipes_) {
+		if (__pipe->getTag() == PIP_NEW) {
+			if (__pipe->getPositionX() < bird_->getPositionX()) {
+				SimpleAudioEngine::getInstance()->playEffect("sfx_point.ogg");
+				this->scores_ ++;
+				this->delegator->onGamePlaying(scores_);
+				__pipe->setTag(PIP_PASS);
+			}
+		}
+	}
+}
+
+void GameLayer::gameOver()
+{
+	if(game_status_ == GAME_STATUS_OVER) {
+		return;
+	}
+	SimpleAudioEngine::getInstance()->playEffect("sfx_hit.ogg");
+	
+	if(this->scores_ > best_scores_){
+		best_scores_ = scores_;
+	}
+
+	this->delegator->onGameEnd(scores_, best_scores_);
+	this->unschedule(shift_Land_);
+
+	SimpleAudioEngine::getInstance()->playEffect("sfx_die.ogg");
+
+	bird_->die();
+	bird_->setRotation(-90);
+	birdSpriteFadeOut();
+	game_status_ = GAME_STATUS_OVER;
+
+}
+
+void GameLayer::birdSpriteFadeOut()
+{
+	FadeOut* __animation = FadeOut::create(1.5);
+	CallFunc* __animationDone = CallFunc::create(bind(&GameLayer::birdSpriteRemove,this));
+	Sequence* __sequence = Sequence::createWithTwoActions(__animation,__animationDone);
+	bird_->stopAllActions();
+	bird_->runAction(__sequence);
+}
+
+void GameLayer::birdSpriteRemove()
+{
+	bird_->setRotation(0);
+	this->removeChild(this->bird_);
 }
 

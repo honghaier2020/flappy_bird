@@ -106,6 +106,18 @@ public:
 	void createPipes();
 
 	int getRandomHeight();
+	
+	void update(float __delta);
+
+	void rotateBird();
+
+	void checkHit();
+
+	void gameOver();
+
+	void birdSpriteFadeOut();
+
+	void birdSpriteRemove();
 
 private:
 	SpriteBird* bird_;
@@ -113,6 +125,8 @@ private:
 	GameStatus	game_status_;
 
 	int			scores_;
+
+	int			best_scores_;
 
 	Node*		ground_node_;
 
@@ -123,5 +137,6 @@ private:
 	cocos2d::PhysicsWorld*	physics_world_;
 
 	std::vector<Node*> pipes_;
+
 };
 #endif // GameLayer_h__
