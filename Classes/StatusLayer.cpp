@@ -120,7 +120,6 @@ void StatusLayer::fadeInGameOver()
 	gameover_sprite->setPosition(Point(origin_point_.x + visible_size_.width / 2, origin_point_.y + visible_size_.height *2/3));
 	this->addChild(gameover_sprite);
 	auto gameover_fade_in = FadeIn::create(0.5f);
-
 	// Start next action
 	CallFunc *actionDone = CallFunc::create(bind(&StatusLayer::jumpToScorePanel, this));
 	auto sequence = Sequence::createWithTwoActions(gameover_fade_in, actionDone);
@@ -176,13 +175,13 @@ std::string StatusLayer::getMedalsName( int __score )
 
 	//display the golden silver or bronze iron
 	string __medals_name = "";
-	if(this->current_scores_ >=10 && this->current_scores_ < 20){//iron medals
+	if(this->current_scores_ >=1 && this->current_scores_ < 2){//iron medals
 		__medals_name = "medals_0";
-	}else if(this->current_scores_ >= 20 && current_scores_ < 30){//bronze medals
+	}else if(this->current_scores_ >= 2 && current_scores_ < 3){//bronze medals
 		__medals_name = "medals_1";
-	}else if(current_scores_ >=30 && current_scores_ < 50){//silver medals
+	}else if(current_scores_ >=3 && current_scores_ < 5){//silver medals
 		__medals_name = "medals_2";
-	}else if(current_scores_ >=50){//golden medals
+	}else if(current_scores_ >=5){//golden medals
 		__medals_name = "medals_3";
 	}
 	return __medals_name;
