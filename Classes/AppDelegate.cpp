@@ -18,16 +18,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLView::create("My Game");
+        glview = GLView::create("flappy bird");
         director->setOpenGLView(glview);
     }
-	if(1)
-	{
-		glview->setDesignResolutionSize(288,512, ResolutionPolicy::SHOW_ALL);
-	}
-	else{
-		glview->setFrameSize(480,320);
-	}
+
+	glview->setDesignResolutionSize(288,512, ResolutionPolicy::SHOW_ALL);
+	glview->setFrameSize(288,512);
+
 
 	this->setResourceSearchResolution();
 	
